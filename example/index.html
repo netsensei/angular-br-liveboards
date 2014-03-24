@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="nmbsLiveboardsApp">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NG NMBS Liveboards</title>
+    <!-- angular -->
+    <script type="text/javascript" src="components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="components/angular-resource/angular-resource.min.js"></script>
+
+    <!-- NMBS Liveboards -->
+    <script type="text/javascript" src="../src/nmbs-liveboards.js"></script>
+    <link href='../src/nmbs-liveboards.css' rel='stylesheet' />
+
+    <!-- example app -->
+    <script type="text/javascript" src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/controllers/nmbsliveboardsctrl.js"></script>
+  </head>
+  <body ng-controller="nmbsLiveboardsCtrl">
+    <h1>Angular NMBS Liveboards</h1>
+
+    <div nmbs-liveboards station="'brugge'">
+
+  </body>
+</html>

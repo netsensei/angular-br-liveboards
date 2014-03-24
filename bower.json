@@ -1,0 +1,25 @@
+{
+  "name": "angular-nmbsliveboard",
+  "version": "0.1.0",
+  "authors": [
+    "netsensei <matthias@colada.be>"
+  ],
+  "description": "NMBS Liveboards via iRail as an Angular directive",
+  "main": "src/angular-nmbsliveboard.js",
+  "keywords": [
+    "nmbs",
+    "irail",
+    "liveboards",
+    "angular",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "example/components"
+  ],
+  "devDependencies": {
+    "angular-bootstrap": "~0.10.0"
+  }
+}
