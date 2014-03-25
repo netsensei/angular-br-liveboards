@@ -5,27 +5,41 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices'])
     return {
       restrict: 'A',
       template: '<div class="nmbsLiveboards">' +
-                   '<div class="selectStation">' +
+                   '<div ng-if="!station" class="selectStation">' +
                      '<p>Select a station</p>' +
-                     '<select ng-model="station" ng-options="s.name for s in stations"></select>' +
+                     '<select ng-model="selectedStation" ng-options="s.name for s in stations"></select>' +
                    '</div>' +
                  '</div>',
       scope: {
         station: '='
       },
       link: function(scope, element, attrs) {
-        Nmbs.getStations(function(data) {
+        scope.stations = [];
+
+        Nmbs.getStations().then(function (data) {
           scope.stations = data.Stations;
         });
+
       }
     };
   }]);
 
 var irailApiServices = angular.module('irailApiServices', ['ngResource']);
 
-irailApiServices.factory('Nmbs', ['$resource',
-  function ($resource) {
-      return $resource('https://data.irail.be/NMBS/Stations.json', {}, {
-        getStations: { method: 'GET', isArray: false}
-      });
-    }]);
+irailApiServices.service('Nmbs', function ($http) {
+  this.getStations = function () {
+    return this.getData('https://data.irail.be/NMBS/Stations.json');
+  };
+
+  this.getLiveboard = function (station) {
+    return this.getData(station.departures);
+  };
+
+  this.getData = function (url) {
+    var promise = $http.get(url).then(function (response) {
+      return response.data;
+    });
+
+    return promise;
+  };
+});
