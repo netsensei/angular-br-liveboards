@@ -9,7 +9,8 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                      '<p>Select a station</p>' +
                      '<select ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
                    '</div>' +
-                   '<div class="liveBoard">' +
+                   '<span ng-if="!received" class="loader"></span>' +
+                   '<div ng-if="received" class="liveBoard">' +
                      '<div class="stationData">' +
                        '<h1>{{liveBoard.location.name}}</h1>' +
                      '</div>' +
@@ -21,7 +22,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                          '<tr ng-repeat="departure in liveBoard.departures">' +
                            '<td>{{departure.iso8601 | timeFilter}}</td>' +
                            '<td>{{departure.direction}}</td>' +
-                           '<td>{{departure.vehicle | vehicleType}}</td>' +
+                           '<td>{{departure.vehicle | vehicleTypeFilter}}</td>' +
                            '<td>{{departure.platform.name}}</td>' +
                            '<td ng-if="departure.delay">+{{departure.delay | delayFilter}}</td>' +
                           '</tr>' +
@@ -37,6 +38,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
         $scope.selectedStation = (!angular.isUndefined($scope.station)) ? true : false;
         $scope.activeStation = false;
         $scope.liveBoard = [];
+        $scope.received = false;
 
         Nmbs.getStations().then(function (data) {
           $scope.stations = data.Stations;
@@ -48,6 +50,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
               }
             }
             $scope.update($scope.activeStation);
+            $scope.received = true;
           }
         });
 
@@ -82,7 +85,7 @@ angular.module('irailApiServices', []).service('Nmbs', ['$http', function ($http
 
 // Filters
 angular.module('NmbsFilters', [])
- .filter('vehicleType', function () {
+ .filter('vehicleTypeFilter', function () {
    return function(vehicle) {
      var parts = vehicle.split('.');
      return parts[2];

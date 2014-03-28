@@ -1,25 +1,47 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    // Task configuration.
+
     uglify: {
       build: {
-        src: 'src/angular-nmbsliveboards.js',
-        dest: 'build/angular-nmbsliveboards.min.js'
+        src: 'src/nmbs-liveboards.js',
+        dest: 'build/nmbs-liveboards.min.js'
       }
     },
 
-    concat: {
-      build: {
+    sass: {
+      prod: {
         files: {
-          'build/angular-nmbsliveboards.js':  'src/angular-nmbsliveboards.js'
+          './build/nmbs-liveboards.css': './src/nmbs-liveboards.scss'
         }
+      }
+    },
+
+    cssmin: {
+      minify: {
+        src: 'build/nmbs-liveboards.css',
+        dest: 'build/nmbs-liveboards.min.css'
+      }
+    },
+
+    watch: {
+      js: {
+        files: ['./src/*.js'],
+        tasks: ['buildJs']
+      },
+      css: {
+        files: ['./src/*.scss'],
+        tasks: ['buildSass']
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+
+  grunt.registerTask('buildJs', ['uglify:build']);
+  grunt.registerTask('buildSass', ['sass:prod', 'cssmin:minify']);
+  grunt.registerTask('build', ['buildJs', 'buildSass']);
 };
