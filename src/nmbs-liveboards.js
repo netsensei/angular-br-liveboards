@@ -9,14 +9,14 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                      '<p>Select a station</p>' +
                      '<select ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
                    '</div>' +
-                   '<span ng-if="!received" class="loader"></span>' +
+                   '<div ng-if="!received" class="loader"></div>' +
                    '<div ng-if="received" class="liveBoard">' +
                      '<div class="stationData">' +
                        '<h1>{{liveBoard.location.name}}</h1>' +
                      '</div>' +
                      '<table class="departures">' +
                        '<thead>' +
-                         '<tr><th>test</th></tr>' +
+                         '<tr><th colspan="5">test</th></tr>' +
                        '</thead>' +
                        '<tbody>' +
                          '<tr ng-repeat="departure in liveBoard.departures">' +
@@ -24,7 +24,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                            '<td>{{departure.direction}}</td>' +
                            '<td>{{departure.vehicle | vehicleTypeFilter}}</td>' +
                            '<td>{{departure.platform.name}}</td>' +
-                           '<td ng-if="departure.delay">+{{departure.delay | delayFilter}}</td>' +
+                           '<td ng-if="departure.delay" class="delay">+{{departure.delay | delayFilter}}</td>' +
                           '</tr>' +
                        '</tbody>' +
                      '</table>' +
@@ -50,7 +50,6 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
               }
             }
             $scope.update($scope.activeStation);
-            $scope.received = true;
           }
         });
 
@@ -58,6 +57,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
           $scope.selectedStation = selectedStation;
           Nmbs.getLiveboard(selectedStation).then(function (data) {
             $scope.liveBoard = data.Liveboard;
+            $scope.received = true;
           });
         };
       }
