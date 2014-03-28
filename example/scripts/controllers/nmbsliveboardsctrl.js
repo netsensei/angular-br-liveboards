@@ -1,4 +1,4 @@
 'use strict'
 
-nmbsLiveboardsApp.controller('nmbsLiveboardsCtrl', function($scope) {
+App.controller('nmbsLiveboardsCtrl', function($scope) {
 });

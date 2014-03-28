@@ -33,7 +33,15 @@ module.exports = function(grunt) {
         files: ['./src/*.scss'],
         tasks: ['buildSass']
       }
+    },
+
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js',
+        background: true
+      }
     }
+
   });
 
   grunt.loadNpmTasks('grunt-sass');
