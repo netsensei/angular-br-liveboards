@@ -32,13 +32,17 @@ module.exports = function(grunt) {
       css: {
         files: ['./src/*.scss'],
         tasks: ['buildSass']
+      },
+      tests: {
+        files: ['./test/**/*.js'],
+        tasks: ['karma']
       }
     },
 
     karma: {
       unit: {
-	configFile: 'karma.conf.js',
-	background: true
+        configFile: 'test/karma.conf.js',
+        background: false
       }
     }
 
@@ -48,8 +52,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('buildJs', ['uglify:build']);
   grunt.registerTask('buildSass', ['sass:prod', 'cssmin:minify']);
   grunt.registerTask('build', ['buildJs', 'buildSass']);
+  grunt.registerTask('test', ['karma']);
 };
