@@ -7,6 +7,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
+      'node_modules/jquery/dist/jquery.js',
       'bower_components/angular/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'example/scripts/*.js',
