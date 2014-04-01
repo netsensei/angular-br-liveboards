@@ -10,14 +10,13 @@ describe("NMBS Liveboards", function() {
     $compile = _$compile_;
   }));
 
-  var createLiveboard = function (tpl) {
-    if (!tpl) tpl = '<div nmbs-liveboards>';
-    element = angular.element(tpl);
-    element = $compile(element)(scope);
-    scope.$digest();
-  }
-
   describe('Uninitialized Liveboard', function() {
+      var createLiveboard = function (tpl) {
+      if (!tpl) tpl = '<div nmbs-liveboards>';
+        element = angular.element(tpl);
+        element = $compile(element)(scope);
+        scope.$digest();
+      }
 
     beforeEach(function () {
       inject(function ($httpBackend) {
@@ -42,21 +41,18 @@ describe("NMBS Liveboards", function() {
     });
 
     it('should not render a loader upon initialization', function() {
-      var elements = element.find('div');
-      for (var idx = 0; idx < elements.length; ++idx) {
-        expect(angular.element(elements[idx]).hasClass('loader')).toBeFalsy();
-      }
+      expect(element.find('div.nmbsLiveboards div.loader')).not.toBeDefined();
     });
   });
 
   describe('Initialized Liveboard', function() {
 
-  var createLiveboard = function (tpl) {
-    if (!tpl) tpl = '<div nmbs-liveboards>';
-    element = angular.element(tpl);
-    element = $compile(element)(scope);
-    scope.$digest();
-  }
+    var createLiveboard = function (tpl) {
+      if (!tpl) tpl = '<div nmbs-liveboards>';
+      element = angular.element(tpl);
+      element = $compile(element)(scope);
+      scope.$digest();
+    }
 
     beforeEach(function () {
       inject(function ($httpBackend) {
@@ -79,11 +75,10 @@ describe("NMBS Liveboards", function() {
               "departures":[{
                 "time":1396237380,
                 "iso8601":"2014-03-31T05:43:00+0200",
-                "delay":0,
-                "direction":
-                "Brussel-Zuid",
+                "delay":300,
+                "direction":"Brussel-Zuid",
                 "vehicle":"BE.NMBS.L5325",
-                "platform":{"name":""}
+                "platform":{"name":"2"}
               }]
             }
         });
@@ -94,13 +89,24 @@ describe("NMBS Liveboards", function() {
       });
     });
 
-    it('should render a select element with stations', function() {
-      console.log(element);
+    it('should show a liveboard if one is found', function() {
+      expect(element.find('div.stationData h1').text()).toMatch('Simonis');
+      expect(element.find('div.stationData tr.departure')).toBeDefined();
     });
 
+    it('should show a valid departure record if one is found', function() {
+      // expect valid time
+      expect(element.find('tr.departure td.direction').text()).toMatch('Brussel-Zuid');
+      expect(element.find('tr.departure td.type').text()).toMatch('L');
+      expect(element.find('tr.departure td.platform').text()).toMatch('2');
+      expect(element.find('tr.departure td.delay').text()).toMatch(/\+00h05/);
+    });
+
+    it('should show a human readable error message if no liveboard could be loaded', function() {
+    });
   });
 });
 
 describe('NMBS Liveboards iRail API test', function() {
 
-})
+});
