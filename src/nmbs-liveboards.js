@@ -19,11 +19,11 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                          '<tr><th colspan="5">test</th></tr>' +
                        '</thead>' +
                        '<tbody>' +
-                         '<tr ng-repeat="departure in liveBoard.departures">' +
-                           '<td>{{departure.iso8601 | timeFilter}}</td>' +
-                           '<td>{{departure.direction}}</td>' +
-                           '<td>{{departure.vehicle | vehicleTypeFilter}}</td>' +
-                           '<td>{{departure.platform.name}}</td>' +
+                         '<tr class="departure" ng-repeat="departure in liveBoard.departures">' +
+                           '<td class="time">{{departure.iso8601 | timeFilter}}</td>' +
+                           '<td class="direction">{{departure.direction}}</td>' +
+                           '<td class="type">{{departure.vehicle | vehicleTypeFilter}}</td>' +
+                           '<td class="platform">{{departure.platform.name}}</td>' +
                            '<td ng-if="departure.delay" class="delay">+{{departure.delay | delayFilter}}</td>' +
                           '</tr>' +
                        '</tbody>' +
