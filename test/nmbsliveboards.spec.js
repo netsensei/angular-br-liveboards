@@ -11,23 +11,22 @@ describe("NMBS Liveboards", function() {
   }));
 
   describe('Uninitialized Liveboard', function() {
-      var createLiveboard = function (tpl) {
-      if (!tpl) tpl = '<div nmbs-liveboards>';
-        element = angular.element(tpl);
-        element = $compile(element)(scope);
-        scope.$digest();
-      }
+    var createLiveboard = function (tpl) {
+      if (!tpl) { tpl = '<div nmbs-liveboards>'; }
+      element = angular.element(tpl);
+      element = $compile(element)(scope);
+      scope.$digest();
+    };
 
     beforeEach(function () {
       inject(function ($httpBackend) {
         $httpBackend.whenGET('https://data.irail.be/NMBS/Stations.json').respond({
           "Stations":[{
-            "id":"BE.NMBS.00101",
-            "name":"Simonis",
-            "longitude":
-            "4.330556",
-            "latitude":
-            "50.863056","departures":"https:\/\/data.iRail.be\/NMBS\/Liveboard\/Simonis\/2014\/03\/30\/19\/20"
+            "id": "BE.NMBS.00101",
+            "name": "Simonis",
+            "longitude": "4.330556",
+            "latitude": "50.863056",
+            "departures": "https:\/\/data.iRail.be\/NMBS\/Liveboard\/Simonis\/2014\/03\/30\/19\/20"
           }]
         });
         createLiveboard();
@@ -41,18 +40,18 @@ describe("NMBS Liveboards", function() {
     });
 
     it('should not render a loader upon initialization', function() {
-      expect(element.find('div.nmbsLiveboards div.loader')).not.toBeDefined();
+      expect(element.find('div.nmbsLiveboards div.loader').length).toBe(0);
     });
   });
 
   describe('Initialized Liveboard', function() {
 
     var createLiveboard = function (tpl) {
-      if (!tpl) tpl = '<div nmbs-liveboards>';
+      if (!tpl) { tpl = '<div nmbs-liveboards station="\'Simonis\'">'; }
       element = angular.element(tpl);
       element = $compile(element)(scope);
       scope.$digest();
-    }
+    };
 
     beforeEach(function () {
       inject(function ($httpBackend) {
@@ -71,8 +70,9 @@ describe("NMBS Liveboards", function() {
             "location":{
               "name":"Simonis",
               "longitude":4.32898,
-              "latitude":50.863645},
-              "departures":[{
+              "latitude":50.863645
+            },
+            "departures":[{
                 "time":1396237380,
                 "iso8601":"2014-03-31T05:43:00+0200",
                 "delay":300,
@@ -81,7 +81,7 @@ describe("NMBS Liveboards", function() {
                 "platform":{"name":"2"}
               }]
             }
-        });
+          });
 
         var board = '<div nmbs-liveboards station=\"\'Simonis\'\">';
         createLiveboard(board);
@@ -96,10 +96,14 @@ describe("NMBS Liveboards", function() {
 
     it('should show a valid departure record if one is found', function() {
       // expect valid time
-      expect(element.find('tr.departure td.direction').text()).toMatch('Brussel-Zuid');
-      expect(element.find('tr.departure td.type').text()).toMatch('L');
-      expect(element.find('tr.departure td.platform').text()).toMatch('2');
-      expect(element.find('tr.departure td.delay').text()).toMatch(/\+00h05/);
+      expect(element.find('tr.departure td.direction').text()).toMatch(/^Brussel-Zuid$/);
+      expect(element.find('tr.departure td.type').text()).toMatch(/^L$/);
+      expect(element.find('tr.departure td.platform').text()).toMatch(/^2$/);
+      expect(element.find('tr.departure td.delay').text()).toMatch(/^\+00h05$/);
+    });
+
+    it('should not render a loader upon initialization', function() {
+      expect(element.find('div.nmbsLiveboards div.loader').length).toBe(0);
     });
 
     it('should show a human readable error message if no liveboard could be loaded', function() {
