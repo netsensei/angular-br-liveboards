@@ -9,7 +9,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                      '<p>Select a station</p>' +
                      '<select ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
                    '</div>' +
-                   '<div ng-if="!received" class="loader"></div>' +
+                   '<div ng-if="showLoader" class="loader"></div>' +
                    '<div ng-if="received" class="liveBoard">' +
                      '<div class="stationData">' +
                        '<h1>{{liveBoard.location.name}}</h1>' +
@@ -39,6 +39,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
         $scope.activeStation = false;
         $scope.liveBoard = [];
         $scope.received = false;
+        $scope.showLoader = false;
 
         Nmbs.getStations().then(function (data) {
           $scope.stations = data.Stations;
@@ -55,11 +56,20 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
 
         $scope.update = function (selectedStation) {
           $scope.selectedStation = selectedStation;
+          $scope.showLoader = true;
           Nmbs.getLiveboard(selectedStation).then(function (data) {
             $scope.liveBoard = data.Liveboard;
             $scope.received = true;
           });
         };
+
+        $scope.$watch('received', function (received) {
+          console.log('test');
+          console.log(received);
+          if (received) {
+            $scope.showLoader = false;
+          }
+        });
       }
     };
   }]);
@@ -85,22 +95,22 @@ angular.module('irailApiServices', []).service('Nmbs', ['$http', function ($http
 
 // Filters
 angular.module('NmbsFilters', [])
- .filter('vehicleTypeFilter', function () {
-   return function(vehicle) {
-     var parts = vehicle.split('.');
-     return parts[2];
-   };
- })
- .filter('timeFilter', function () {
-   return function(time) {
-     var dateObj = new Date(time);
-     return dateObj.toLocaleTimeString("be-BE");
-   };
- })
- .filter('delayFilter', function () {
-   return function(time) {
-     var hours = parseInt( time / 3600, 10) % 24;
-     var minutes = parseInt( time / 60, 10) % 60;
-     return (hours < 10 ? "0" + hours : hours) + "h" + (minutes < 10 ? "0" + minutes : minutes);
-   };
- });
+  .filter('vehicleTypeFilter', function () {
+    return function(vehicle) {
+      var parts = vehicle.split('.');
+      return parts[2].replace(/(\d+)/g, '');
+    };
+  })
+  .filter('timeFilter', function () {
+    return function(time) {
+      var dateObj = new Date(time);
+      return dateObj.toLocaleTimeString("be-BE");
+    };
+  })
+  .filter('delayFilter', function () {
+    return function(time) {
+      var hours = parseInt( time / 3600, 10) % 24;
+      var minutes = parseInt( time / 60, 10) % 60;
+      return (hours < 10 ? "0" + hours : hours) + "h" + (minutes < 10 ? "0" + minutes : minutes);
+    };
+  });
