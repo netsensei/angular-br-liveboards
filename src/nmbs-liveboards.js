@@ -15,7 +15,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
                    '</div>' +
                    '<div ng-if="showLoader" class="loader"></div>' +
                    '<div ng-if="errorMessage" class="error">{{errorMessage}}</div>' +
-                   '<div ng-if="received" class="liveBoard">' +
+                   '<div ng-if="liveBoard" class="liveBoard">' +
                      '<div class="stationData">' +
                        '<h1>{{liveBoard.location.name}}</h1>' +
                      '</div>' +
@@ -43,7 +43,6 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
         $scope.selectedStation = (!angular.isUndefined($scope.station)) ? true : false;
         $scope.activeStation = false;
         $scope.liveBoard = null;
-        $scope.received = false;
         $scope.showLoader = false;
         $scope.errorMessage = '';
 
@@ -55,36 +54,39 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
           $scope.showLoader = false;
         });
 
-        $http.get('https://data.irail.be/NMBS/Stations.json').success(function (data) {
-          $scope.stations = data.Stations;
+        $http.get('https://data.irail.be/NMBS/Stations.json')
+          .success(function (data) {
+            $scope.stations = data.Stations;
 
-          if (!angular.isUndefined($scope.station)) {
-            for (var idx = 0; idx < data.Stations.length; ++idx) {
-              if (data.Stations[idx].name === $scope.station) {
-                $scope.update(data.Stations[idx]);
-                break;
+            if (!angular.isUndefined($scope.station)) {
+              var found = false;
+
+              for (var idx = 0; idx < data.Stations.length; ++idx) {
+                if (data.Stations[idx].name === $scope.station) {
+                  $scope.update(data.Stations[idx]);
+                  found = true;
+                  break;
+                }
+              }
+
+              if (!found) {
+                $scope.errorMessage = "The selected station does not exist";
               }
             }
-          }
-        });
+          });
 
         $scope.update = function (selectedStation) {
           $scope.selectedStation = selectedStation;
           $scope.showLoader = true;
-          $http.get(selectedStation.departures + '.json').success(function (data) {
-            $scope.liveBoard = data.Liveboard;
-            $scope.received = true;
-          }).error(function(data, status, headers, config) {
-            console.log(status);
-            console.log(data);
-          });
+          $http.get(selectedStation.departures + '.json')
+            .success(function (data) {
+              $scope.liveBoard = data.Liveboard;
+            })
+            .error(function(data, status, headers, config) {
+              console.log(status);
+              console.log(data);
+            });
         };
-
-        $scope.$watch('received', function (received) {
-          if (received) {
-            $scope.showLoader = false;
-          }
-        });
       }
     };
   }])
@@ -95,7 +97,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
     var activeRequests = 0;
 
     var started = function() {
-      if (activeRequests == 0) {
+      if (activeRequests === 0) {
         $rootScope.$broadcast('loadingStatusActive');
       }
       activeRequests++;
@@ -103,7 +105,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
 
     var ended = function() {
       activeRequests--;
-      if (activeRequests == 0) {
+      if (activeRequests === 0) {
         $rootScope.$broadcast('loadingStatusInactive');
       }
     };

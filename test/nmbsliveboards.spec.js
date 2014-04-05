@@ -139,6 +139,4 @@ describe("NMBS Liveboards", function() {
 
 });
 
-describe('NMBS Liveboards iRail API test', function() {
 
-});
