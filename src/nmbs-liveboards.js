@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
-  .directive('nmbsLiveboards', ['Nmbs', function(Nmbs) {
+angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
+  .directive('nmbsLiveboards', ['$http', function($http) {
     return {
       restrict: 'A',
       template: '<div class="nmbsLiveboards">' +
@@ -10,6 +10,7 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
                      '<select ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
                    '</div>' +
                    '<div ng-if="showLoader" class="loader"></div>' +
+                   '<div ng-if="errorMessage" class="error">{{errorMessage}}</div>' +
                    '<div ng-if="received" class="liveBoard">' +
                      '<div class="stationData">' +
                        '<h1>{{liveBoard.location.name}}</h1>' +
@@ -37,35 +38,34 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
       controller: function($scope, $element) {
         $scope.selectedStation = (!angular.isUndefined($scope.station)) ? true : false;
         $scope.activeStation = false;
-        $scope.liveBoard = [];
+        $scope.liveBoard = null;
         $scope.received = false;
         $scope.showLoader = false;
+        $scope.errorMessage = '';
 
-        Nmbs.getStations().then(function (data) {
+        $http.get('https://data.irail.be/NMBS/Stations.json').success(function (data) {
           $scope.stations = data.Stations;
+
           if (!angular.isUndefined($scope.station)) {
             for (var idx = 0; idx < data.Stations.length; ++idx) {
               if (data.Stations[idx].name === $scope.station) {
-                $scope.activeStation = data.Stations[idx];
+                $scope.update(data.Stations[idx]);
                 break;
               }
             }
-            $scope.update($scope.activeStation);
           }
         });
 
         $scope.update = function (selectedStation) {
           $scope.selectedStation = selectedStation;
           $scope.showLoader = true;
-          Nmbs.getLiveboard(selectedStation).then(function (data) {
+          $http.get(selectedStation.departures + '.json').success(function (data) {
             $scope.liveBoard = data.Liveboard;
             $scope.received = true;
           });
         };
 
         $scope.$watch('received', function (received) {
-          console.log('test');
-          console.log(received);
           if (received) {
             $scope.showLoader = false;
           }
@@ -73,25 +73,6 @@ angular.module('ui-nmbs-liveboards', ['irailApiServices', 'NmbsFilters'])
       }
     };
   }]);
-
-// The iRail API service
-angular.module('irailApiServices', []).service('Nmbs', ['$http', function ($http) {
-  this.getStations = function () {
-    return this.getData('https://data.irail.be/NMBS/Stations.json');
-  };
-
-  this.getLiveboard = function (station) {
-    return this.getData(station.departures + '.json');
-  };
-
-  this.getData = function (url) {
-    var promise = $http.get(url).then(function (response) {
-      return response.data;
-    });
-
-    return promise;
-  };
-}]);
 
 // Filters
 angular.module('NmbsFilters', [])
