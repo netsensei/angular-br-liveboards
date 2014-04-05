@@ -1,6 +1,10 @@
 'use strict';
 
 angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
+  .config(function($httpProvider) {
+    $httpProvider.interceptors.push('loadingStatusInterceptor');
+  })
+
   .directive('nmbsLiveboards', ['$http', function($http) {
     return {
       restrict: 'A',
@@ -43,6 +47,14 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
         $scope.showLoader = false;
         $scope.errorMessage = '';
 
+        $scope.$on('loadingStatusActive', function() {
+          $scope.showLoader = true;
+        });
+
+        $scope.$on('loadingStatusInactive', function () {
+          $scope.showLoader = false;
+        });
+
         $http.get('https://data.irail.be/NMBS/Stations.json').success(function (data) {
           $scope.stations = data.Stations;
 
@@ -62,6 +74,9 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
           $http.get(selectedStation.departures + '.json').success(function (data) {
             $scope.liveBoard = data.Liveboard;
             $scope.received = true;
+          }).error(function(data, status, headers, config) {
+            console.log(status);
+            console.log(data);
           });
         };
 
@@ -72,7 +87,42 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
         });
       }
     };
-  }]);
+  }])
+
+  // The loadingStatusInterceptor broadcasts an event. We use this to notify
+  // the controller when the spinner should be hidden/shown.
+  .factory('loadingStatusInterceptor', function($q, $rootScope) {
+    var activeRequests = 0;
+
+    var started = function() {
+      if (activeRequests == 0) {
+        $rootScope.$broadcast('loadingStatusActive');
+      }
+      activeRequests++;
+    };
+
+    var ended = function() {
+      activeRequests--;
+      if (activeRequests == 0) {
+        $rootScope.$broadcast('loadingStatusInactive');
+      }
+    };
+
+    return {
+      request: function(config) {
+        started();
+        return config || $q.when(config);
+      },
+      response: function(response) {
+        ended();
+        return response || $q.when(response);
+      },
+      responseError: function(rejection) {
+        ended();
+        return $q.reject(rejection);
+      }
+    };
+  });
 
 // Filters
 angular.module('NmbsFilters', [])
