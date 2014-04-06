@@ -21,6 +21,7 @@
   ],
   "devDependencies": {
     "angular-bootstrap": "~0.10.0",
-    "angular-mocks": "~1.2.15"
+    "angular-mocks": "~1.2.15",
+    "bootstrap": "~3.1.1"
   }
 }

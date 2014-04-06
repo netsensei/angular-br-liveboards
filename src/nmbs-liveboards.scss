@@ -1,14 +1,27 @@
 /* Liveboard */
 
 .nmbsLiveboards {
+  position: relative;
+  width: 20em;
 
   .liveBoard .departures {
     background: #222;
     font: 1em "Courier New", Courier, monospace;
   }
 
+  .liveBoard table {
+    width: 100%;
+  }
+
   table.departures thead {
     background: #205CE8;
+
+    tr th {
+      color: #fff;
+      height: 1.75em;
+      line-height: 1.25em;
+    }
+
   }
 
   table.departures tbody {
@@ -17,6 +30,10 @@
     .delay {
       color: red;
     }
+  }
+
+  table.departures tbody tr td {
+    padding: 2px;
   }
 }
 
@@ -84,7 +101,8 @@
   width: 40px;
   height: 40px;
 }
-.loader:before, .loader:after {
+.loader:before,
+.loader:after {
   content: "";
   position: absolute;
   left: 50%;

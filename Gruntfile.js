@@ -44,6 +44,22 @@ module.exports = function(grunt) {
         configFile: 'test/karma.conf.js',
         background: false
       }
+    },
+
+    protractor: {
+      options: {
+        configFile: "node_modules/protractor/referenceConf.js", // Default config file
+        keepAlive: true, // If false, the grunt process stops when the test fails.
+        noColor: false, // If true, protractor will not use colors in its output.
+        args: {
+          // Arguments passed to the command
+        }
+      },
+      target: {
+        options: {
+          configFile: "test/protractor.conf"
+        }
+      }
     }
 
   });
@@ -53,9 +69,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-protractor-runner');
 
   grunt.registerTask('buildJs', ['uglify:build']);
   grunt.registerTask('buildSass', ['sass:prod', 'cssmin:minify']);
   grunt.registerTask('build', ['buildJs', 'buildSass']);
   grunt.registerTask('test', ['karma']);
+  grunt.registerTask('e2e', ['protractor']);
 };

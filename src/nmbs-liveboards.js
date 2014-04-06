@@ -10,8 +10,8 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
       restrict: 'A',
       template: '<div class="nmbsLiveboards">' +
                    '<div ng-if="!selectedStation" class="selectStation">' +
-                     '<p>Select a station</p>' +
-                     '<select ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
+                     '<p ng-if="stations">Select a station</p>' +
+                     '<select ng-if="stations" ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
                    '</div>' +
                    '<div ng-if="showLoader" class="loader"></div>' +
                    '<div ng-if="errorMessage" class="error">{{errorMessage}}</div>' +
@@ -21,7 +21,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
                      '</div>' +
                      '<table class="departures">' +
                        '<thead>' +
-                         '<tr><th colspan="5">test</th></tr>' +
+                         '<tr><th colspan="5">{{now}}</th></tr>' +
                        '</thead>' +
                        '<tbody>' +
                          '<tr class="departure" ng-repeat="departure in liveBoard.departures">' +
@@ -29,6 +29,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
                            '<td class="direction">{{departure.direction}}</td>' +
                            '<td class="type">{{departure.vehicle | vehicleTypeFilter}}</td>' +
                            '<td class="platform">{{departure.platform.name}}</td>' +
+                           '<td ng-if="!departure.delay" class="delay">&nbsp;</td>' +
                            '<td ng-if="departure.delay" class="delay">+{{departure.delay | delayFilter}}</td>' +
                           '</tr>' +
                        '</tbody>' +
@@ -37,7 +38,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
                  '</div>' +
                  '{{foobar.value}}',
       scope: {
-        station: '='
+        station: '=',
       },
       controller: function($scope, $element) {
         $scope.selectedStation = (!angular.isUndefined($scope.station)) ? true : false;
@@ -45,6 +46,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
         $scope.liveBoard = null;
         $scope.showLoader = false;
         $scope.errorMessage = '';
+        $scope.now = new Date().toLocaleTimeString("be-BE").replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
 
         $scope.$on('loadingStatusActive', function() {
           $scope.showLoader = true;
@@ -80,6 +82,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
           $scope.showLoader = true;
           $http.get(selectedStation.departures + '.json')
             .success(function (data) {
+              data.Liveboard.departures = data.Liveboard.departures.slice(0, 20);
               $scope.liveBoard = data.Liveboard;
             })
             .error(function(data, status, headers, config) {
@@ -137,7 +140,7 @@ angular.module('NmbsFilters', [])
   .filter('timeFilter', function () {
     return function(time) {
       var dateObj = new Date(time);
-      return dateObj.toLocaleTimeString("be-BE");
+      return dateObj.toLocaleTimeString("be-BE").replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
     };
   })
   .filter('delayFilter', function () {
