@@ -94,6 +94,7 @@ describe("NMBS Liveboards", function() {
 
     it('should show a valid departure record if one is found', function() {
       // expect valid time
+      expect(element.find('tr.departure td.time').text()).toMatch(/^([\d]+:[\d]{2})$/);
       expect(element.find('tr.departure td.direction').text()).toMatch(/^Brussel-Zuid$/);
       expect(element.find('tr.departure td.type').text()).toMatch(/^L$/);
       expect(element.find('tr.departure td.platform').text()).toMatch(/^2$/);

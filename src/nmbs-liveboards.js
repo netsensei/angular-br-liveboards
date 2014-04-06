@@ -25,7 +25,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
                        '</thead>' +
                        '<tbody>' +
                          '<tr class="departure" ng-repeat="departure in liveBoard.departures">' +
-                           '<td class="time">{{departure.iso8601 | timeFilter}}</td>' +
+                           '<td class="time">{{departure.time | timeFilter}}</td>' +
                            '<td class="direction">{{departure.direction}}</td>' +
                            '<td class="type">{{departure.vehicle | vehicleTypeFilter}}</td>' +
                            '<td class="platform">{{departure.platform.name}}</td>' +
@@ -139,7 +139,7 @@ angular.module('NmbsFilters', [])
   })
   .filter('timeFilter', function () {
     return function(time) {
-      var dateObj = new Date(time);
+      var dateObj = new Date(time * 1000);
       return dateObj.toLocaleTimeString("be-BE").replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, "$1$3");
     };
   })
