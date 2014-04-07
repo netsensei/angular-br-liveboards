@@ -1,7 +1,8 @@
 /* Liveboard */
 .nmbsLiveboards {
   position: relative;
-  width: 20em; }
+  width: 20em;
+  min-height: 20em; }
   .nmbsLiveboards .liveBoard .departures {
     background: #222;
     font: 1em "Courier New", Courier, monospace; }
