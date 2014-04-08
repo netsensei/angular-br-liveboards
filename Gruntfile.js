@@ -4,23 +4,23 @@ module.exports = function(grunt) {
 
     uglify: {
       build: {
-        src: 'src/nmbs-liveboards.js',
-        dest: 'build/nmbs-liveboards.min.js'
+        src: 'src/liveboards.js',
+        dest: 'build/liveboards.min.js'
       }
     },
 
     sass: {
       prod: {
         files: {
-          './build/nmbs-liveboards.css': './src/nmbs-liveboards.scss'
+          './build/liveboards.css': './src/liveboards.scss'
         }
       }
     },
 
     cssmin: {
       minify: {
-        src: 'build/nmbs-liveboards.css',
-        dest: 'build/nmbs-liveboards.min.css'
+        src: 'build/liveboards.css',
+        dest: 'build/liveboards.min.css'
       }
     },
 

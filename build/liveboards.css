@@ -1,24 +1,24 @@
 /* Liveboard */
-.nmbsLiveboards {
+.brLiveboards {
   position: relative;
   width: 20em;
   min-height: 20em; }
-  .nmbsLiveboards .liveBoard .departures {
+  .brLiveboards .liveBoard .departures {
     background: #222;
     font: 1em "Courier New", Courier, monospace; }
-  .nmbsLiveboards .liveBoard table {
+  .brLiveboards .liveBoard table {
     width: 100%; }
-  .nmbsLiveboards table.departures thead {
+  .brLiveboards table.departures thead {
     background: #205CE8; }
-    .nmbsLiveboards table.departures thead tr th {
+    .brLiveboards table.departures thead tr th {
       color: #fff;
       height: 1.75em;
       line-height: 1.25em; }
-  .nmbsLiveboards table.departures tbody {
+  .brLiveboards table.departures tbody {
     color: #FCF400; }
-    .nmbsLiveboards table.departures tbody .delay {
+    .brLiveboards table.departures tbody .delay {
       color: red; }
-  .nmbsLiveboards table.departures tbody tr td {
+  .brLiveboards table.departures tbody tr td {
     padding: 2px; }
 
 /* Loader */

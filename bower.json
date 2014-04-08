@@ -1,13 +1,15 @@
 {
-  "name": "angular-nmbsliveboard",
+  "name": "liveboards",
   "version": "0.1.0",
   "authors": [
     "netsensei <matthias@colada.be>"
   ],
-  "description": "NMBS Liveboards via iRail as an Angular directive",
-  "main": "src/angular-nmbsliveboard.js",
+  "description": "Belgian Rail Liveboards via iRail as an Angular directive",
+  "main": "src/liveboards.js",
   "keywords": [
-    "nmbs",
+    "belgian",
+    "rail",
+    "public transport",
     "irail",
     "liveboards",
     "angular",

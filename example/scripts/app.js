@@ -1,3 +1,3 @@
 'use strict'
 
-var App = angular.module('nmbsLiveboardsApp', ['ui-nmbs-liveboards']);
+var App = angular.module('brLiveboardsApp', ['br.liveboards']);

@@ -1,13 +1,16 @@
 {
-  "name": "angular-nmbsliveboard",
+  "name": "angular-brliveboard",
   "version": "0.1.0",
-  "description": "NMBS Liveboards via iRail as an Angular directive",
-  "main": "src/angular-nmbsliveboard.js",
+  "description": "Belgian Rail Liveboards via iRail as an Angular directive",
+  "main": "src/liveboards.js",
   "scripts": {
     "test": "karma start test/karma.conf.js"
   },
   "keywords": [
     "nmbs",
+    "belgian",
+    "rail",
+    "public transport",
     "irail",
     "liveboard",
     "api",
@@ -31,6 +34,6 @@
     "karma-chrome-launcher": "^0.1.2",
     "karma-firefox-launcher": "^0.1.3",
     "karma-jasmine": "^0.1.5",
-    "karma-phantomjs-launcher": "^0.1.2",
+    "karma-phantomjs-launcher": "^0.1.2"
   }
 }

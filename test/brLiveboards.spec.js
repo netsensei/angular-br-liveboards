@@ -1,4 +1,4 @@
-describe("NMBS Liveboards", function() {
+describe("Belgian Rail Liveboards", function() {
 
   var scope, $compile;
   var element;
@@ -31,7 +31,7 @@ describe("NMBS Liveboards", function() {
     }
   };
 
-  beforeEach(module('ui-nmbs-liveboards'));
+  beforeEach(module('br.liveboards'));
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope;
@@ -41,7 +41,7 @@ describe("NMBS Liveboards", function() {
   describe('Uninitialized Liveboard', function() {
 
     var createLiveboard = function (tpl) {
-      if (!tpl) { tpl = '<div nmbs-liveboards>'; }
+      if (!tpl) { tpl = '<div br-liveboards>'; }
       element = angular.element(tpl);
       element = $compile(element)(scope);
       scope.$digest();
@@ -69,7 +69,7 @@ describe("NMBS Liveboards", function() {
   describe('Initialized Liveboard with retrievable data', function() {
 
     var createLiveboard = function (tpl) {
-      if (!tpl) { tpl = '<div nmbs-liveboards station="\'Simonis\'">'; }
+      if (!tpl) { tpl = '<div br-liveboards station="\'Simonis\'">'; }
       element = angular.element(tpl);
       element = $compile(element)(scope);
       scope.$digest();
@@ -80,7 +80,7 @@ describe("NMBS Liveboards", function() {
         $httpBackend.whenGET('https://data.irail.be/NMBS/Stations.json').respond(stations);
         $httpBackend.whenGET('https://data.iRail.be/NMBS/Liveboard/Simonis/2014/03/30/19/20.json').respond(station);
 
-        var board = '<div nmbs-liveboards station=\"\'Simonis\'\">';
+        var board = '<div br-liveboards station=\"\'Simonis\'\">';
         createLiveboard(board);
         $httpBackend.flush();
       });
@@ -114,7 +114,7 @@ describe("NMBS Liveboards", function() {
   describe('Initialized Liveboard with unretrievable data', function() {
 
     var createLiveboard = function (tpl) {
-      if (!tpl) { tpl = '<div nmbs-liveboards station="\'Simonis\'">'; }
+      if (!tpl) { tpl = '<div br-liveboards station="\'Simonis\'">'; }
       element = angular.element(tpl);
       element = $compile(element)(scope);
       scope.$digest();
@@ -125,7 +125,7 @@ describe("NMBS Liveboards", function() {
         $httpBackend.whenGET('https://data.irail.be/NMBS/Stations.json').respond(stations);
         $httpBackend.whenGET('https://data.iRail.be/NMBS/Liveboard/undefined/2014/03/30/19/20.json').respond('Unable to get results');
 
-        var board = '<div nmbs-liveboards station=\"\'undefined\'\">';
+        var board = '<div br-liveboards station=\"\'undefined\'\">';
         createLiveboard(board);
         $httpBackend.flush();
       });

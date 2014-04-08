@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
+angular.module('br.liveboards', ['brLiveboardsFilters'])
   .config(function($httpProvider) {
     $httpProvider.interceptors.push('loadingStatusInterceptor');
   })
 
-  .directive('nmbsLiveboards', ['$http', function($http) {
+  .directive('brLiveboards', ['$http', function($http) {
     return {
       restrict: 'A',
-      template: '<div class="nmbsLiveboards">' +
+      template: '<div class="brLiveboards">' +
                    '<div ng-if="!selectedStation" class="selectStation">' +
                      '<p ng-if="stations">Select a station</p>' +
                      '<select ng-if="stations" ng-model="selectedStation" ng-options="s.name for s in stations" ng-change="update(selectedStation)"></select>' +
@@ -130,7 +130,7 @@ angular.module('ui-nmbs-liveboards', ['NmbsFilters'])
   });
 
 // Filters
-angular.module('NmbsFilters', [])
+angular.module('brLiveboardsFilters', [])
   .filter('vehicleTypeFilter', function () {
     return function(vehicle) {
       var parts = vehicle.split('.');

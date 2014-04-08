@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html ng-app="nmbsLiveboardsApp">
+<html ng-app="brLiveboardsApp">
   <head>
     <meta charset="UTF-8" />
-    <title>NG NMBS Liveboards</title>
+    <title>Angular Belgian Rail Liveboards</title>
     <!-- css -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css" rel="stylesheet" />
 
     <!-- angular -->
     <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script></script>
 
-    <!-- NMBS Liveboards -->
-    <script type="text/javascript" src="../src/nmbs-liveboards.js"></script>
-    <link href='../build/nmbs-liveboards.css' rel='stylesheet' />
+    <!-- Belgian Rail Liveboards -->
+    <script type="text/javascript" src="../src/liveboards.js"></script>
+    <link href='../build/liveboards.css' rel='stylesheet' />
 
     <!-- example app -->
     <script type="text/javascript" src="scripts/app.js"></script>
-    <script type="text/javascript" src="scripts/controllers/nmbsliveboardsctrl.js"></script>
+    <script type="text/javascript" src="scripts/controllers/liveboardsCtrl.js"></script>
   </head>
-  <body ng-controller="nmbsLiveboardsCtrl">
-    <h1>Angular NMBS Liveboards</h1>
+  <body ng-controller="brLiveboardsCtrl">
+    <h1>Angular Belgian Rail Liveboards</h1>
 
-    <div nmbs-liveboards station="'Antwerp Central'">
+    <div br-liveboards station="'Antwerp Central'">
 
   </body>
 </html>
