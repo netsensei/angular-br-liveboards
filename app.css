@@ -1,0 +1,31 @@
+body {
+  padding-top: 30px;
+}
+
+.btn-outline {
+  border-color: #000;
+  background-color: transparent;
+  color: #000;
+}
+
+.btn-outline:hover {
+  color: #3498db;
+  border-color: #3498db;
+}
+
+.intro,
+.section {
+  padding: 40px 65px 0;
+}
+.intro {
+  text-align: center;
+}
+
+.liveboard {
+  width: 20em;
+  margin: 0 auto;
+}
+
+.liveboard h1 {
+  font-size: 30px;
+}

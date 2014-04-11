@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Angular Belgian Rail Liveboards</title>
+
+    <!-- angular -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <!-- app -->
+    <script src="app.js"></script>
+    <script src="src/liveboards.min.js"></script>
+    <link rel="stylesheet" href="src/liveboards.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="app.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-app="brLiveboardsApp" ng-controller="brLiveboardsCtrl">
+    <div class="container">
+
+      <div class="intro">
+
+        <h1>Angular Belgian Rail Liveboards</h1>
+        <p class="lead">Display real time departure information from the Belgian
+        Railways in your own Angular app.</p>
+
+        <div class="actions">
+          <a class="btn btn-outline btn-lg" href="https://github.com/netsensei/angular-br-liveboards/archive/master.zip"><i class="fa fa-download"></i> Download Zip</a>
+
+          <a class="btn btn-outline btn-lg" href="https://github.com/netsensei/angular-br-liveboards/">
+          <i class="fa fa-github"></i> View on GitHub</a>
+        </div>
+
+      </div>
+
+      <div class="liveboard">
+        <div br-liveboards station="'Ghent Sint Pieters'"></div>
+      </div>
+
+      <div class="section">
+
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
