@@ -20,6 +20,8 @@
       color: red; }
   .brLiveboards table.departures tbody tr td {
     padding: 2px; }
+  .brLiveboards .error {
+    color: red; }
 
 /* Loader */
 @-webkit-keyframes expand {

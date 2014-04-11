@@ -104,7 +104,7 @@ angular.module('br.liveboards', ['brLiveboardsFilters'])
 
   // The loadingStatusInterceptor broadcasts an event. We use this to notify
   // the controller when the spinner should be hidden/shown.
-  .factory('loadingStatusInterceptor', function($q, $rootScope) {
+  .factory('loadingStatusInterceptor', ['$q', '$rootScope', function($q, $rootScope) {
     var activeRequests = 0;
 
     var started = function() {
@@ -135,7 +135,7 @@ angular.module('br.liveboards', ['brLiveboardsFilters'])
         return $q.reject(rejection);
       }
     };
-  });
+  }]);
 
 // Filters
 angular.module('brLiveboardsFilters', [])
