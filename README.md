@@ -2,18 +2,22 @@
 
 ### What is this?
 
-So you want to add a Belgian Rail Liveboard with real time information to your
-app? This project packs a directive that does just that.
+So you want to add a Belgian Rail Liveboard with real time departure information to your
+app? This project packs an [Angular](http://angularjs.org) directive that does just that.
 
 ### How to use?
 
-Add the br-liveboards data attribute to any element in your Angular templates:
+Use this directive in your Angular templates:
 
 ```
 <div br-liveboards>
 ```
 
-You don't want to the liveboard of a specific station? Can do!
+The above tag will show a dropdown of all the available stations in the iRail API. After
+selecting a station, the liveboard will be retrieved and dipslayed.
+
+You want to display the liveboard of a specific station? Can do! Add the ```station```
+attribute:
 
 ```
 <div br-liveboards station="'Antwerp Central'">
