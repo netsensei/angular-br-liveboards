@@ -75,7 +75,13 @@ angular.module('br.liveboards', ['brLiveboardsFilters'])
                 $scope.errorMessage = "The selected station does not exist";
               }
             }
-          });
+          })
+          .error(function(data, status, headers, config) {
+            switch (status) {
+              case 0:
+                $scope.errorMessage = "The network connection appears to be unavaiable.";
+            }
+        });
 
         $scope.update = function (selectedStation) {
           $scope.selectedStation = selectedStation;
@@ -86,8 +92,10 @@ angular.module('br.liveboards', ['brLiveboardsFilters'])
               $scope.liveBoard = data.Liveboard;
             })
             .error(function(data, status, headers, config) {
-              console.log(status);
-              console.log(data);
+              switch (status) {
+                case 0:
+                  $scope.errorMessage = "The network connection appears to be unavaiable.";
+              }
             });
         };
       }
