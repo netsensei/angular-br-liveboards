@@ -2,10 +2,20 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
+    ngmin: {
+      build: {
+        expand: true,
+        src: ['src/liveboards.js'],
+        dest: 'build/generated'
+      }
+    },
+
     uglify: {
       build: {
-        src: 'src/liveboards.js',
-        dest: 'build/liveboards.min.js'
+        src: 'build/generated/src/liveboards.js',
+        dest: 'build/liveboards.min.js',
+        mangle: false,
+        report: 'min'
       }
     },
 
@@ -53,8 +63,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-ngmin');
 
-  grunt.registerTask('buildJs', ['uglify:build']);
+  grunt.registerTask('buildJs', ['ngmin:build', 'uglify:build']);
   grunt.registerTask('buildSass', ['sass:prod', 'cssmin:minify']);
   grunt.registerTask('build', ['buildJs', 'buildSass']);
   grunt.registerTask('test', ['karma']);
